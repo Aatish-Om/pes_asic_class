@@ -100,14 +100,16 @@ int main(){
     printf("Sum of numbers from 1 to %d is %d \n", n, sum);
     return 0;
 }
-```
+
+
 
 We compiled the program using the GCC compiler to get the output:
 
 ```bash
 gcc sum1.c -o a.out
 ```
-![atomdeb1](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/638c14fc-617e-45b4-969a-22eb76cd30cd)
+``![q1](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/00da03d0-d55e-40be-89ba-0e404a969645)
+
 
 ### RISCV GCC Compiler and Disassemble
 

@@ -87,7 +87,7 @@ Sure, here's the provided information rephrased and converted into a Markdown (.
 We created a C program using the text editor Leafpad to calculate the sum from 1 to n:
 
 ```c
-leafpad sumton.c
+leafpad sum1.c
 ```
 ```c
 #include<stdio.h>
@@ -105,7 +105,7 @@ int main(){
 We compiled the program using the GCC compiler to get the output:
 
 ```bash
-gcc sumton.c -o a.out
+gcc sum1.c -o a.out
 ```
 ![atomdeb1](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/638c14fc-617e-45b4-969a-22eb76cd30cd)
 
@@ -114,27 +114,27 @@ gcc sumton.c -o a.out
 We compiled the C program using the RISC-V GCC compiler:
 
 ```bash
-riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o sum1ton.o sum1ton.c
+riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o sum1.o sum1.c
 ```
 ![atom1](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/178dceda-4de3-48eb-b66e-4ab895d9d83d)
 
 We checked the creation of the object file using the command:
 
 ```bash
-ls -ltr sum1ton.c
+ls -ltr sum1.c
 ```
 
 To disassemble the ALP code for the C program, we used:
 
 ```bash
-riscv64-unknown-elf-objdump -d sum1ton.o | less
+riscv64-unknown-elf-objdump -d sum1.o | less
 ```
 
 To view the main section, we used the `/main` command. With the `-O1` optimization, the number of instructions was 15.<img width="453" alt="261329510-98843b92-0beb-4bfc-ba4b-1dac5c93ed3c" src="https://github.com/Aatish-Om/pes_asic_class/assets/125562864/a8bf4bd1-3e4c-42f0-ae0f-9addfdd86b95">
 
 ### Spike Simulation and Debug
 
-We used `spike pk sum1ton.o` to check if the instructions produced the correct output. For debugging, we used `spike -d pk sum1ton.c`. The contents of the registers could also be viewed.
+We used `spike pk sum1.o` to check if the instructions produced the correct output. For debugging, we used `spike -d pk sum1.c`. The contents of the registers could also be viewed.
 
 ### Integer Number Representation
 

@@ -241,7 +241,7 @@ ABI names for registers serve as a standardized way to designate the purpose and
 
 C program:
 ```c
-custom1to9.c
+cus1to9.c
 ```
 
 ```c
@@ -290,7 +290,7 @@ riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o cus1to9.o cus1to9.c load.
 ```
 **Execution**: To execute the object file run the command
 ```bash
-spike pk custom1to9.o
+spike pk cus1to9.o
 ```
 ![lab2](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/cb22ac5d-fd42-4b00-926b-854f710724c4)
 

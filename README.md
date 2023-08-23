@@ -27,7 +27,7 @@ You can find the necessary materials and scripts for this course on this [GitHub
 
 ## Table of Contents
 
-### DAY 1
+# DAY 1
 
 1. Introduction to RISCV ISA and GNU Compiler Toolchain
    - Introduction to Basic Keywords
@@ -175,26 +175,130 @@ int main(){
 ```
 ![atom3](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/72e8803f-6e31-4512-8f7a-93541a4172c6)
 
-### Application Binary Interface (ABI)
+# Day 2:
 
-An Application Binary Interface (ABI) is a set of rules and conventions that govern how binary code interacts with other binary code. It enables interoperability between different software components written in different languages, compiled by different compilers, or running on different architectures.
+## Application Binary Interface
+Introduction to ABI
+An Application Binary Interface (ABI) is a set of rules and conventions that dictate how binary code interacts with and communicates with other binary code, typically at the level of machine code or compiled code. In simpler terms, it defines the interface between two software components or systems that are written in different programming languages, compiled by different compilers, or running on different hardware architectures.
 
 ### Memory Allocation for Double Words
+64-bit number (or any multi-byte value) can be loaded into memory in little-endian or big-endian. It involves understanding the byte order and arranging the bytes accordingly:
 
-64-bit numbers can be loaded into memory in little-endian or big-endian representation. Little-endian stores the least significant byte (LSB) at the lowest memory address, while big-endian stores the most significant byte (MSB) at the lowest memory address.
+* Little-Endian: In little-endian representation, you store the least significant byte (LSB) at the lowest memory address and the most significant byte (MSB) at the highest memory address.
+* Big-Endian: In big-endian representation, you store the most significant byte (MSB) at the lowest memory address and the least significant byte (LSB) at the highest memory address.
+  
+### Load, Add and Store Instructions
+Load, Add, and Store instructions are fundamental operations in computer architecture and assembly programming. They are often used to manipulate data within a computer's memory and registers.
+Load, Add and Store Instructions
+Load, Add, and Store instructions are fundamental operations in computer architecture and assembly programming. They are often used to manipulate data within a computer's memory and registers.
 
-### Load, Add, and Store Instructions
+1. **Load Instructions:** Load instructions are used to transfer data from memory to registers. They allow you to fetch data from a specified memory address and place it into a register for further processing.
+Example ```ld x6, 8(x5) ```
 
-Load instructions transfer data from memory to registers. Store instructions write data from registers into memory. Add instructions perform addition operations on registers.
+In this Example
+
+* ```ld``` is the load double-word instruction.
+* ```x6``` is the destination register.
+* ```8(x5)``` is the memory address pointed to by register x5 (base address + offset).
+2. **Store Instructions:** Store instructions are used to write data from registers into memory.They store values from registers into memory addresses
+Example ```sd x8, 8(x9)```
+
+In this Example
+
+* ```sd``` is the store double-word instruction.
+* ```x8``` is the source register.
+* ```8(x9)``` is the memory address pointed to by register x9 (base address + offset).
+
+3.**Add Instructions:** Add instructions are used to perform addition operations on registers. They add the values of two source registers and store the result in a destination register.
+Example ```add x9, x10, x11```
+
+In this Example
+
+* ```add``` is the add instruction.
+* ```x9``` is the destination register.
+* ```x10``` and ```x11``` are the source registers.
 
 ### 32-Registers and their ABI Names
+The choice of the number of registers in a processor's architecture, such as the RISC-V RV64 architecture with its 32 general-purpose registers, involves a trade-off between various factors. While modern processors can have more registers but increasing the number of registers could lead to larger instructions, which would take up more memory and potentially slow down instruction fetch and decode.
 
-32 registers are present in the RISC-V RV64 architecture. ABI names for registers serve as standardized designations for their purpose and usage within a software ecosystem.
+### ABI Names
+ABI names for registers serve as a standardized way to designate the purpose and usage of specific registers within a software ecosystem. These names play a critical role in maintaining compatibility, optimizing code generation, and facilitating communication between different software components.
 
-### Labwork using ABI Function Calls
 
-We incorporated assembly language code into a C program using inline assembly or separate assembly files. We called assembly functions from C code, following the C calling convention. We reviewed examples of C and assembly files working together.
+<img width="267" alt="regfile" src="https://github.com/Aatish-Om/pes_asic_class/assets/125562864/590d6618-7db6-4c32-83b0-386d4772f5cc">
 
----
+
+## Labwork using ABI Function Calls
+
+### Algorithm for C Program using ASM
+* Incorporating assembly language code into a C program can be done using inline assembly or by linking separate assembly files with your C code.
+* When you call an assembly function from your C code, the C calling convention is followed, including pushing arguments onto the stack or passing them in registers as required.
+* The program executes the assembly function, following the assembly instructions you've provided.
+
+### Review ASM Function Calls
+* We wrote C code in one file and your assembly code in a separate file.
+* In the assembly file, we declared assembly functions with appropriate signatures that match the calling conventions of your platform.
+
+C program:
+```c
+custom1to9.c
+```
+
+```c
+#include <stdio.h>
+
+extern int load(int x, int y);
+
+int main()
+{
+  int result = 0;
+  int count = 9;
+  result = load(0x0, count+1);
+  printf("Sum of numbers from 1 to 9 is %d\n", result);
+}
+```
+
+Assembly File:
+```bash
+load.s
+```
+
+```bash
+.section .text
+.global load
+.type load, @function
+
+load:
+
+add a4, a0, zero
+add a2, a0, a1
+add a3, a0, zero
+
+loop:
+
+add a4, a3, a4
+addi a3, a3, 1
+blt a3, a2, loop
+add a0, a4, zero
+ret
+```
+## Simulate C Program using Function Call
+**Compilation**: To compile C code and Asseembly file use the command
+
+```bash
+riscv64-unknown-elf-gcc -O1 -mabi=lp64 -march=rv64i -o cus1to9.o cus1to9.c load.s
+```
+**Execution**: To execute the object file run the command
+```bash
+spike pk custom1to9.o
+```
+![lab2](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/cb22ac5d-fd42-4b00-926b-854f710724c4)
+
+
+
+
+
+
+
 
 

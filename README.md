@@ -29,13 +29,13 @@ You can find the necessary materials and scripts for this course on this [GitHub
 
 # DAY 1
 
-1. Introduction to RISCV ISA and GNU Compiler Toolchain
+**1. Introduction to RISCV ISA and GNU Compiler Toolchain**
    - Introduction to Basic Keywords
    - Introduction: From Apps to Hardware
    - Detailed Course Content Description
    - Labwork for RISCV Toolchain
 
-2. C Program
+**2. C Program**
    - RISCV GCC Compiler and Disassemble
    - Spike Simulation and Debug
    - Integer Number Representation

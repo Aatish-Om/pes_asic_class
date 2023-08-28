@@ -294,6 +294,197 @@ spike pk cus1to9.o
 ```
 ![lab2](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/cb22ac5d-fd42-4b00-926b-854f710724c4)
 
+# RTL Design Using Verilog With sky130 Technology
+## Softwares installation:
+* **Iverilog** <br>
+  
+  **Commands to install iverilog:** <br>
+  ```bash
+  sudo apt install iverilog
+  ``` 
+
+  ![Screenshot from 2023-08-28 23-14-59](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/0d532319-3c54-4054-807d-5d655275f727)
+
+* **GTKWave** <br>
+
+  **Commands to install GTKWave:** <br> 
+  ```bash
+  sudo apt install gtkwave
+  ``` 
+  ![Screenshot from 2023-08-29 00-03-33](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/9f1cfcea-a47b-4c4f-8af4-5e418d79c2ba)
+
+* **YOSYS** <br> 
+  **Commands used to install YOSYS:** <br> 
+  ```bash
+  git clone https://github.com/YosysHQ/yosys.git
+  ``` 
+  ```bash
+  cd yosys
+  ```  
+  ```bash
+  sudo apt install make
+  ``` 
+  ```bash
+  sudo apt-get update
+  ```
+  ```bash
+  sudo apt-get install build-essential clang bison flex  libreadline-dev gawk tcl-dev libffi-dev git  graphviz xdot pkg-config python3 libboost-system-dev libboost-python-dev libboost-filesystem-dev zlib1g-dev
+  ```
+  ```bash
+  make config-gcc
+  ```
+  ```bash
+  make
+  ```  
+
+  ![Screenshot from 2023-08-28 23-18-34](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/89f461e0-f9c9-46dc-ab07-bb31c22d339a)
+
+* **Commands used for vsdflow:**
+  ```bash
+  git clone https://github.com/kunalg123/vsdflow.git
+  ```
+  ```bash
+  cd vsdflow
+  ```
+  ```bash
+  chmod 777 opensource_eda_tool_install.sh
+  ```
+  ```bash
+  ./opensource_eda_tool_install.sh
+  ```
+  
+  ![Screenshot from 2023-08-28 23-48-58](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/3700644e-7fe5-4827-b882-b43e47d1e3d4)
+
+# DAY 1 :
+## Intro to Verilog RTL design and synthesis 
+1) **Simulator** :- Tool(IVerilog) used to check/verify a design whenever the inputs change.
+2) **Design** :- Set of verilog codes that have intended functionality.
+3) **Testbench** :- Setup of applying stimulus to the design and verify the accuracy of the design.
+
+**IVerilog based simulation flow :**
+
+![263472723-3174e610-0ffa-4d71-86b4-f01f9b58677b](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/77c2512f-bb57-4ad2-9bfa-3fe5d68b7bff)
+
+* Based on the changes in the inputs the output will be manipulated depending on the design.
+* A vcd (Value Change Dump format) file will be generated.
+* To view this vcd file we use gtkwave tool which displays the outut.
+  
+### Source codes and testbenches
+**Commands used:**
+```bash
+git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop
+```
+![Screenshot from 2023-08-28 23-58-05](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/3548d698-9116-4289-ba20-e80b2a14b90e)
+
+### Using iverilog to load mux.v program and tretbench from the source files and execute the VCD file
+1) Get intp the folder containing the verilog code and the testbench files
+```bash
+iverilog good_mux.v tb_good_mux.v
+```
+2) This will generate the VCD file
+```bash
+./a.out
+```
+3) This will open up the waveform based on the testbench
+```bash
+gtkwave tb_good_mux.vcd
+```
+### Executing the a.out and .vcd files:
+
+![Screenshot from 2023-08-29 00-21-37](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/e3bb52b3-ecae-420d-bb2c-754189f6552a)
+
+### GTKWave output :
+
+![Screenshot from 2023-08-29 00-23-18](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/e4941c03-ac00-4b86-b95c-7166cffe6f91)
+
+### Analysing the logic and testbench
+* **good_mux.v:**
+![Screenshot from 2023-08-29 00-25-01](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/2013964d-42e7-4850-9470-4bad679f2272)
+
+* **tb_good_mux.v:**
+![Screenshot from 2023-08-29 00-27-09](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/b9c19a76-456c-43ab-91f1-e00ac39350bb)
+
+### YOSYS and Logic Synthesis
+
+![263510914-5edd408a-fb91-4252-9ebe-307d19856b6b](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/bd65051e-6bdc-4252-914d-1003087d2c7c)
+
+* The design file and the .lib files are applied to YOSYS to get a synthesised output(netlist)
+* **read_verilog:** used to read the design
+* **read_liberty:** used to read the library files
+* **write_verilog:** used on netlist file to get netlist
+
+
+### Veifying the synthesis:
+![263511084-db9309df-4c2f-41f9-a314-3973345cd399](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/4d8d8195-0c24-4739-a559-95b306766770)
+
+* the same **.tb** file can be used here along with the netlist file generated
+* **RTL design:** Behavioural representation of the required design (in VHDL)
+* **Synthesis:** Converting RTL into gate level/netlist
+* **Synthesiszer:** (YOSYS) converts RTL into netlist
+
+### .lib files:
+* It consists of all the standard library files(collection of logical modules and all gates of different delays)
+* Why gates of different delays:-
+  	i) To satisfy the timing delays of different combinational logics
+	ii) T_clk > T_cq_A + T_comb + T_setup_b (we need fast gates here)
+	iii) T_hold < Tcq_A + T_comb (need slow gates)
+
+## Lab on YOSYS
+
+We read the **.lib** and design diles on yosys to get the netlist output 
+**Commands used:**
+```bash
+read_liberty -lib /path to .lib file
+```
+```bash
+read_verilog good_mux.v
+```
+```bash
+synth -top module_name
+```
+```bash
+abc -liberty /path to .lib file/
+```
+```bash
+show
+```
+```bash
+write_verilog -noattr good_mux_netlist.v
+```
+```bash
+!gvim good_mux_netlist.v
+```
+
+* **read_liberty -lib /path to .lib file/** // It reads all the components in the .lib file
+* **read_verilog good_mux.v** // This will read the desgn verilog file
+![Screenshot from 2023-08-29 00-47-40](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/675afcf2-129e-4c24-854d-5429da268a19)
+
+* **synth -top module_name** // This will synthesis the module specified
+![Screenshot from 2023-08-29 00-48-53](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/8aa8abf0-952a-46d5-8a46-856149fb535d)
+
+* **abc -liberty /path to .lib file/** // This will generate the netlist file based on the .lib file mentioned
+
+![Screenshot from 2023-08-29 00-50-31](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/b4da6b61-b419-4c1e-b504-afef43751453)
+
+* **show** // Used to see the synthesised output / netlist
+  
+![Screenshot from 2023-08-29 00-51-11](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/11419762-017f-47b9-a9d8-68b0d05d88ea)
+
+* **write_verilog -noattr good_mux_netlist.v** // This command writes the netlist into the specifies file
+* **!gvim good_mux_netlist.v** // This command will display the netlist.v file
+
+![Screenshot from 2023-08-29 00-56-40](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/667878d2-f4bd-4853-a765-8f60aaf075a2)
+
+
+
+
+
+
+
+
+  
+
+
 
 
 

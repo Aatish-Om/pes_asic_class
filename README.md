@@ -475,17 +475,126 @@ write_verilog -noattr good_mux_netlist.v
 
 ![Screenshot from 2023-08-29 00-56-40](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/667878d2-f4bd-4853-a765-8f60aaf075a2)
 
+# DAY-2
+## .lib files
+### commands used in terminal :
+```bash
+gvim /path to the .lib file/
+```
+### commands used in vim:
+```bash
+syn off // Switches off the highlighting of the syntax
+```
+```bash
+se un  // used to enable the line numbers
+```
+```bash
+/cell  // used to find a word cell
+```
+```bash
+vsp   // Opens another window of the same file
+```
+it contains:-
 
+* Conditions of PVT(Pressure Voltage Temperature) for proper working
+* Default values/units
+* time_unit : "1ns";
+** voltage_unit : "1V";
+** leakage_power_unit : "1nW";
+** current_unit : "1mA";
+** pulling_resistance_unit : "1kohm";
+** capacitive_load_unit(1.0000000000, "pf");
+** default_operating_conditions : "tt_025C_1v80";
+* Standard cells
+* Leakage powers of all the cells for different inputs
+* About the technology("CMOS")
+ 
+### .lib file:
 
+![263531024-d1c0aadb-6cef-4fab-a7a9-738635e677ea](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/9117eb91-2469-4966-91d6-d47ae21f2404)
 
+### Different versions of the and2 gate:-
+### **and2_0 :**
 
+![263534366-f51956e2-5536-49c5-bead-3d4a07af4b8f](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/06549be4-bf4a-4cde-b704-ba52ba8aa20d)
 
+### **and2_2:**
+![263534384-03ab1e2b-1467-45dc-8abb-bf9a07600df5](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/8c127731-68c9-4b7b-8df6-1412bb9963d5)
 
+### **and2_4:**
+![263534542-e4d5275d-7e0a-4591-a89c-a35658d59a48](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/63db148c-f226-41b8-b65f-c32203b184f3)
+
+### Observation:-
+* In terms of area and power :- **and2_4** > **and2_2** > **and2_0**
+* **Wider cells** occupy **high area** and consume **high power** and the **delay is low**
+* **smaller cells** occupy **low area** and consume **low power** and the **delay is high**
+
+## Synthesizing a module named multiple_modules.v using YOSYS
+* It contains two sub-modules
+![263765016-ffa7add0-f537-4075-b6be-a2ad4564c822](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/c348bf9f-6989-4d47-bc65-794b5bb51192)
+
+### **Commands used:**
+```bash
+read_liberty -lib /path to .lib file/    // reads the .lib file onto YOSYS
+```
+```bash
+read_verilog multiple_modules.v          // reads the .v file specified
+```
+```bash
+synth -top multiple-modules              // synthesizes the design by taking specified module as top module  
+```
+```bash
+abc -liberty /path to .lib file/         // links the .lib file to the design
+```
+```bash
+show                                     // displays the synthesized design
+```
+```bash
+write_verilog -noattr multiple_modules_hier.v    // writes the netlist into the specified file 
+```
+```bash
+!gvim multiple_modules_hier.v            // displays the netlist file
+```
+
+### Opening YOSYS and reading the .lib file:
+
+![Screenshot from 2023-08-29 00-47-40](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/a321d570-e79f-493a-8f89-9cd680df9093)
+
+### Reading the multiple_modules.v file on YOSYS:
+
+![263765567-ffd41d13-4c03-4617-9c32-c7c225df6459](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/9c12ba30-2ba3-431b-bdb6-436ea8ad6a94)
+
+### Using synth command to synthesize the design:
+
+![263765682-8e1161bb-86d6-4137-a782-7f6552f95ad5](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/e09efc08-b0be-478f-a259-2a95f1987634)
+
+![263765700-7e3dcc6f-bfc2-486d-a397-4f69d9bd790d](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/ee94e8d4-5041-4993-8999-d73194e42e81)
 
   
 
+### Linking the .lib file to the design:
+
+![263766278-59c0eea0-b330-474f-bb04-8c547b118898](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/d94de9e5-e4fc-4494-82e5-9cf996f301a7)
 
 
+### Synthesized output:
+
+![263765949-09d1dc75-9565-435d-ac31-741890270149](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/db1602aa-5306-4c2d-a959-553ee8463039)
+
+### Using write_verilog to write the netlist:-
+
+![263766570-6ff263a1-cc1b-4174-a357-60581bf9b17a](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/d7ef05d7-dd70-4dd0-8107-69a286ccfc9b)
+
+### The output netlist:
+![263767826-c0ba177d-7a18-4763-9d41-6b158e7e515c](https://github.com/Aatish-Om/pes_asic_class/assets/125562864/ef4a7cf4-186a-4fb7-a0fc-27b73df27283)
+
+### Expected v/s synthesized design:
+
+### Observations:-
+* The synthesized and the expected design are different because the expected uses PMOS stacking which is not prefferable
+* Using de-morgans law we can verify the design.
+* The netlist file contains the hierarchy as mentioned in the design file.
+* In the netlist file one NAND gate and two inverters are used instaed of using a and gate & or gate as specified in the design
 
 
 
